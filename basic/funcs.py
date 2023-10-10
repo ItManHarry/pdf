@@ -1,6 +1,6 @@
 from reportlab.lib.units import inch
-from reportlab.lib.colors import pink, black, red, blue, green, Color, CMYKColor, PCMYKColor
-from reportlab.graphics.shapes import Rect
+from reportlab.lib.colors import pink, black, red, blue, green, Color, CMYKColor, PCMYKColor, brown, white, magenta
+
 def coords(c):
     # c.translate(0.2*inch, 0.2*inch)
     c.setStrokeColor(pink)
@@ -65,3 +65,57 @@ def colorCMYK(canvas):
         canvas.setFillColor(black)
         canvas.drawCentredString(x+dx/2, y+texty, f'c{c} m{m} y{y1} k{k}')
         x += dx
+def spumoni(cv):
+    cv.translate(0.2*inch, 0.2*inch)
+    x = 0
+    dx = 0.4*inch
+    for i in range(4):
+        for color in (pink, green, brown):
+            cv.setFillColor(color)
+            cv.rect(x, 0, dx, 3*inch, stroke=0, fill=1)
+            x += dx
+    cv.setFillColor(white)
+    cv.setStrokeColor(white)
+    cv.setFont('Helvetica-Bold', 64)
+    cv.drawCentredString(2.35*inch, 1.3*inch, 'SPUMONI')
+def spumoni2(cv):
+    spumoni(cv)
+    p = cv.beginPath()
+    x_center = 2.75*inch
+    radius = 0.45*inch
+    p.moveTo(x_center-radius, 1.5*inch)
+    p.lineTo(x_center+radius, 1.5*inch)
+    p.lineTo(x_center, 0)
+    p.lineTo(x_center-radius, 1.5*inch)
+    cv.setFillColor(brown)
+    cv.setStrokeColor(black)
+    cv.drawPath(p, fill=1)
+    dy = 1.5*inch
+    for color in (pink, green, brown):
+        cv.setFillColor(color)
+        cv.circle(x_center, dy, radius, fill=1)
+        dy += radius
+def text_size(cv):
+    cv.setFont('Times-Roman', 20)
+    cv.setFillColor(red)
+    cv.drawCentredString(2.75*inch, 2.5*inch, 'Font size examples')
+    cv.setFillColor(magenta)
+    x = 1.3*inch
+    y = 2.3*inch
+    size = 7
+    for line in range(8):
+        cv.setFont('Helvetica', size)
+        cv.drawRightString(x, y, f'{size} points: ')
+        cv.drawString(x, y, f'This is the size of the line {line+1}.')
+        y -= 1.2*size
+        size += 1.5
+def text_font(cv):
+    text = 'Now is the time for all good men to ...'
+    x = 1.8*inch
+    y = 2.7*inch
+    for font in cv.getAvailableFonts():
+        cv.setFont(font, 10)
+        cv.drawString(x, y, text)
+        cv.setFont('Helvetica', 10)
+        cv.drawRightString(x-10, y, font+':')
+        y -= 13
