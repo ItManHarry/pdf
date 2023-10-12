@@ -25,6 +25,8 @@ def pencil(cv, text='No. 2'):
     cv.line(11 * u, 2.5 * u, 22 * u, 2.5 * u)
     cv.line(22 * u, 7.5 * u, 12 * u, 7.5 * u)
 cv = canvas.Canvas('path_demo6.pdf')
+# cv.translate(6 * inch, 0)
+# cv.scale(-1, 1)
 pencil(cv)
 cv.showPage()
 cv.save()
